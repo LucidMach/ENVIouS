@@ -1,0 +1,10 @@
+time ffmpeg -i /dev/video0 -frames 1 ffmpeg.jpg -y
+time ffmpeg -i /dev/video0 -frames 1 ffmpeg.jpg -y
+time ffmpeg -i /dev/video0 -frames 1 ffmpeg.jpg -y
+time ffmpeg -i /dev/video0 -frames 1 ffmpeg.jpg -y
+time ffmpeg -i /dev/video0 -frames 1 ffmpeg.jpg -y
+time ffmpeg -i /dev/video0 -frames 1 ffmpeg.jpg -y
+time ffmpeg -i /dev/video0 -frames 1 ffmpeg.jpg -y
+time ffmpeg -i /dev/video0 -frames 1 ffmpeg.jpg -y
+time ffmpeg -i /dev/video0 -frames 1 ffmpeg.jpg -y
+time ffmpeg -i /dev/video0 -frames 1 ffmpeg.jpg -y

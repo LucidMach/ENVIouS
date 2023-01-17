@@ -1,13 +1,14 @@
-import { useEffect, useRef, useState } from "react";
 import Head from "next/head";
-import Image from "next/image";
 import { Inter } from "@next/font/google";
-import useWS from "@/hooks/useWS";
+import { useEffect, useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const [imgB64, setImgB64] = useState<string>("");
+  const [prevTime, setPrev] = useState(Date.now());
+  const [count, setCount] = useState(0);
+  const [fps, setFPS] = useState(0);
 
   const ws_endpoint = "ws://192.168.128.90:5000/";
 
@@ -29,6 +30,16 @@ export default function Home() {
     };
   }, []);
 
+  // FPS tracker
+  useEffect(() => {
+    setCount(count + 1);
+    if (Date.now() - prevTime > 1000) {
+      setFPS(count);
+      setPrev(Date.now());
+      setCount(0);
+    }
+  }, [imgB64]);
+
   return (
     <>
       <Head>
@@ -38,6 +49,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="bg-slate-900 w-full h-full flex justify-center items-center">
+        <h1 className="absolute top-0 right-0 bg-black">FPS: {fps}</h1>
         <img
           src={imgB64}
           className="w-full h-full"
