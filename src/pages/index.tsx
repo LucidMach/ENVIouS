@@ -8,8 +8,6 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const [imgB64, setImgB64] = useState<string>("");
-  const [recievedCount, setRecievedCount] = useState<number>(0);
-  const [renderedCount, setRenderedCount] = useState<number>(0);
 
   const ws_endpoint = "ws://192.168.128.90:5000/";
 
@@ -18,10 +16,11 @@ export default function Home() {
 
     ws.onopen = () => {
       console.log("handshake successful [listener]");
+      ws.send("READY");
 
       ws.onmessage = (img) => {
-        setRecievedCount((curr) => ++curr);
         setImgB64(img.data);
+        ws.send("READY");
       };
     };
 
@@ -29,11 +28,6 @@ export default function Home() {
       console.log("disconnected [listener]");
     };
   }, []);
-
-  useEffect(() => {
-    setRenderedCount((curr) => ++curr);
-    console.log(recievedCount, renderedCount);
-  }, [imgB64]);
 
   return (
     <>
@@ -44,7 +38,11 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="bg-slate-900 w-full h-full flex justify-center items-center">
-        <img src={imgB64} className="w-2/3" alt="live image from rasPi" />
+        <img
+          src={imgB64}
+          className="w-full h-full"
+          alt="live image from rasPi"
+        />
       </main>
     </>
   );
