@@ -1,0 +1,50 @@
+files / video: JPEG (JFIF) / audio: none
+rec 0:00.00  -  a/r: -0.00s [0], a/v: -0.00s [0]  fifo max fill: audio 0/0, video 1/16, convert 1/16  
+real	0m0.434s
+user	0m0.016s
+sys	0m0.033s
+files / video: JPEG (JFIF) / audio: none
+rec 0:00.00  -  a/r: -0.00s [0], a/v: -0.00s [0]  fifo max fill: audio 0/0, video 1/16, convert 1/16  
+real	0m0.311s
+user	0m0.016s
+sys	0m0.030s
+files / video: JPEG (JFIF) / audio: none
+rec 0:00.00  -  a/r: -0.00s [0], a/v: -0.00s [0]  fifo max fill: audio 0/0, video 1/16, convert 1/16  
+real	0m0.312s
+user	0m0.013s
+sys	0m0.034s
+files / video: JPEG (JFIF) / audio: none
+rec 0:00.00  -  a/r: -0.00s [0], a/v: -0.00s [0]  fifo max fill: audio 0/0, video 1/16, convert 1/16  
+real	0m0.312s
+user	0m0.014s
+sys	0m0.033s
+files / video: JPEG (JFIF) / audio: none
+rec 0:00.00  -  a/r: -0.00s [0], a/v: -0.00s [0]  fifo max fill: audio 0/0, video 1/16, convert 1/16  
+real	0m0.311s
+user	0m0.009s
+sys	0m0.037s
+files / video: JPEG (JFIF) / audio: none
+rec 0:00.00  -  a/r: -0.00s [0], a/v: -0.00s [0]  fifo max fill: audio 0/0, video 1/16, convert 1/16  
+real	0m0.311s
+user	0m0.019s
+sys	0m0.027s
+files / video: JPEG (JFIF) / audio: none
+rec 0:00.00  -  a/r: -0.00s [0], a/v: -0.00s [0]  fifo max fill: audio 0/0, video 1/16, convert 1/16  
+real	0m0.312s
+user	0m0.008s
+sys	0m0.038s
+files / video: JPEG (JFIF) / audio: none
+rec 0:00.00  -  a/r: -0.00s [0], a/v: -0.00s [0]  fifo max fill: audio 0/0, video 1/16, convert 1/16  
+real	0m0.311s
+user	0m0.018s
+sys	0m0.028s
+files / video: JPEG (JFIF) / audio: none
+rec 0:00.00  -  a/r: -0.00s [0], a/v: -0.00s [0]  fifo max fill: audio 0/0, video 1/16, convert 1/16  
+real	0m0.311s
+user	0m0.015s
+sys	0m0.031s
+files / video: JPEG (JFIF) / audio: none
+rec 0:00.00  -  a/r: -0.00s [0], a/v: -0.00s [0]  fifo max fill: audio 0/0, video 1/16, convert 1/16  
+real	0m0.311s
+user	0m0.004s
+sys	0m0.042s

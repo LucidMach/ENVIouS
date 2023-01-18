@@ -1,0 +1,10 @@
+time streamer -f jpeg -o streamer.jpeg
+time streamer -f jpeg -o streamer.jpeg
+time streamer -f jpeg -o streamer.jpeg
+time streamer -f jpeg -o streamer.jpeg
+time streamer -f jpeg -o streamer.jpeg
+time streamer -f jpeg -o streamer.jpeg
+time streamer -f jpeg -o streamer.jpeg
+time streamer -f jpeg -o streamer.jpeg
+time streamer -f jpeg -o streamer.jpeg
+time streamer -f jpeg -o streamer.jpeg
