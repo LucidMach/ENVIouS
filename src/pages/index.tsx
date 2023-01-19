@@ -1,33 +1,45 @@
 import Head from "next/head";
-import { Inter } from "@next/font/google";
-import { useEffect, useState } from "react";
 import Slider from "@/components/slider";
-
-const inter = Inter({ subsets: ["latin"] });
+import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
+  // states to track curr image
   const [imgB64, setImgB64] = useState<string>("");
 
+  // states to track fps
   const [prevTime, setPrev] = useState(Date.now());
   const [count, setCount] = useState(0);
   const [fps, setFPS] = useState(0);
 
+  // states to track motor
   const [RMotor, setRMotor] = useState<number>(0);
   const [LMotor, setLMotor] = useState<number>(0);
+  const motorRef = useRef({ LMotor, RMotor });
 
   const ws_endpoint = "ws://192.168.128.90:5000/";
+
+  interface ws_msg {
+    type: "MOTOR" | "CAM";
+    RMotor?: number;
+    LMotor?: number;
+  }
 
   // get cam feeds
   useEffect(() => {
     const ws_cam = new WebSocket(ws_endpoint);
 
     ws_cam.onopen = () => {
+      const cdata: ws_msg = { type: "CAM" };
+
       console.log("handshake successful [listener]");
-      ws_cam.send("READY");
+      ws_cam.send(JSON.stringify(cdata));
 
       ws_cam.onmessage = (img) => {
+        const mdata: ws_msg = { type: "MOTOR", ...motorRef.current };
         setImgB64(img.data);
-        ws_cam.send("READY");
+
+        ws_cam.send(JSON.stringify(mdata));
+        ws_cam.send(JSON.stringify(cdata));
       };
     };
 
@@ -46,9 +58,12 @@ export default function Home() {
     }
   }, [imgB64]);
 
-  // send motor values
+  // motor value ref update on state change
   useEffect(() => {
-    console.log({ LMotor, RMotor });
+    motorRef.current = {
+      LMotor,
+      RMotor,
+    };
   }, [RMotor, LMotor]);
 
   return (
