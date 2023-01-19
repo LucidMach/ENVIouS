@@ -14,7 +14,12 @@ wss.on("connection", async (ws) => {
 
   let i = 0;
   ws.on("message", (msg) => {
-    if (msg.toString() === "READY") {
+    const { type, RMotor, LMotor } = JSON.parse(msg.toString());
+
+    if (type === "MOTOR") {
+      console.log(RMotor, LMotor);
+    }
+    if (type === "CAM") {
       // capture image using fswebcam
       const fileName = i + ".jpeg";
       const filePath = join(".", fileName);
