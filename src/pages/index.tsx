@@ -26,24 +26,24 @@ export default function Home() {
 
   // get cam feeds
   useEffect(() => {
-    const ws_cam = new WebSocket(ws_endpoint);
+    const ws = new WebSocket(ws_endpoint);
 
-    ws_cam.onopen = () => {
+    ws.onopen = () => {
       const cdata: ws_msg = { type: "CAM" };
 
       console.log("handshake successful [listener]");
-      ws_cam.send(JSON.stringify(cdata));
+      ws.send(JSON.stringify(cdata));
 
-      ws_cam.onmessage = (img) => {
+      ws.onmessage = (img) => {
         const mdata: ws_msg = { type: "MOTOR", ...motorRef.current };
         setImgB64(img.data);
 
-        ws_cam.send(JSON.stringify(mdata));
-        ws_cam.send(JSON.stringify(cdata));
+        ws.send(JSON.stringify(mdata));
+        ws.send(JSON.stringify(cdata));
       };
     };
 
-    ws_cam.onclose = () => {
+    ws.onclose = () => {
       console.log("disconnected [listener]");
     };
   }, []);
