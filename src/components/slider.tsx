@@ -14,7 +14,7 @@ const Slider: React.FC<props> = ({ value, setValue }) => {
         value={value}
         onChange={(e) => setValue(parseInt(e.target.value))}
         step="5"
-        className="absolute w-[500px] h-2 -rotate-90 bg-yellow-500 rounded-lg appearance-none cursor-pointer"
+        className="absolute landscape:w-1/3 md:w-1/2 h-2 -rotate-90 bg-yellow-500 rounded-lg appearance-none cursor-pointer"
       />
     </div>
   );
