@@ -24,6 +24,8 @@ export default function Home() {
     LMotor?: number;
   }
 
+  // fullscreen mode in mobile
+
   // get cam feeds
   useEffect(() => {
     const ws = new WebSocket(ws_endpoint);
