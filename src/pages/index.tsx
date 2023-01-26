@@ -83,6 +83,10 @@ export default function Home() {
           src={imgB64}
           className="p-3 rounded-3xl h-full"
           alt="live image from rasPi"
+          onClick={() => {
+            setLMotor(0);
+            setRMotor(0);
+          }}
         />
         <Slider value={RMotor} setValue={setRMotor} />
       </main>
