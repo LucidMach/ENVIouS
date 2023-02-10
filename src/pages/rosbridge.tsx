@@ -12,6 +12,7 @@ const ROSbridge: React.FC = () => {
   // states to track motor
   const [RMotor, setRMotor] = useState<number>(0);
   const [LMotor, setLMotor] = useState<number>(0);
+
   const [status, setStatus] = useState<"CONNECTED" | "CLOSED" | "ERROR">(
     "CLOSED"
   );
@@ -19,7 +20,9 @@ const ROSbridge: React.FC = () => {
     angular: { x: 0, y: 0, z: 0 },
     linear: { x: 0, y: 0, z: 0 },
   });
+
   const motorRef = useRef({ LMotor, RMotor });
+  const cmd_vel_ref = useRef<ROSLIB.Topic<ROSLIB.Message>>();
 
   // rosbridge
   useEffect(() => {
@@ -42,14 +45,16 @@ const ROSbridge: React.FC = () => {
     });
 
     // Create a listener for /my_topic
+
     const cmd_vel_listener = new ROSLIB.Topic({
       ros,
       name: "/cmd_vel",
       messageType: "geometry_msgs/msg/Twist",
     });
 
-    // When we receive a message on /my_topic, add its data as a list item to the "messages" ul
-    cmd_vel_listener.subscribe((message: any) => {
+    cmd_vel_ref.current = cmd_vel_listener;
+
+    cmd_vel_ref.current.subscribe((message: any) => {
       setROSmotor(message);
     });
   }, []);
@@ -60,6 +65,20 @@ const ROSbridge: React.FC = () => {
       LMotor,
       RMotor,
     };
+    const motorData: ROS_GeoMsg = {
+      angular: {
+        x: 0,
+        y: 0,
+        z: (LMotor - RMotor) / 1000,
+      },
+      linear: {
+        x: (LMotor + RMotor) / 2 / 1000,
+        y: 0,
+        z: 0,
+      },
+    };
+    setROSmotor(motorData);
+    cmd_vel_ref.current?.publish(motorData);
   }, [RMotor, LMotor]);
 
   return (
@@ -80,10 +99,14 @@ const ROSbridge: React.FC = () => {
           }}
         >
           <p className="font-bold">{status}</p>
-          <p className="font-light text-sm text-yellow-50">
-            {JSON.stringify(ROSmotor)}
-          </p>
-          <p className="font-light text-xs">click to reset motors</p>
+          {status === "CONNECTED" ? (
+            <>
+              <p className="font-light text-sm text-yellow-50">
+                {JSON.stringify(ROSmotor)}
+              </p>
+              <p className="font-light text-xs">click to reset motors</p>
+            </>
+          ) : null}
         </div>
         <Slider value={RMotor} setValue={setRMotor} />
       </main>
