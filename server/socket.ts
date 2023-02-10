@@ -14,10 +14,12 @@ wss.on("connection", async (ws) => {
 
   let i = 0;
   ws.on("message", (msg) => {
-    const { type, RMotor, LMotor } = JSON.parse(msg.toString());
+    const { type, angular, linear } = JSON.parse(msg.toString());
 
     if (type === "MOTOR") {
-      console.log(RMotor, LMotor);
+      execSync(
+        `ros2 topic pub --rate 1 /cmd_vel geometry_msgs/msg/Twist '{linear: ${linear}, angular: ${angular}}'`
+      );
     }
     if (type === "CAM") {
       // capture image using fswebcam

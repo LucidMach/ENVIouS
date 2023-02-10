@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Slider from "@/components/slider";
 import { useEffect, useRef, useState } from "react";
+import ROS_GeoMsg from "@/interfaces/geomsg";
 
 export default function Home() {
   // states to track curr image
@@ -14,14 +15,14 @@ export default function Home() {
   // states to track motor
   const [RMotor, setRMotor] = useState<number>(0);
   const [LMotor, setLMotor] = useState<number>(0);
-  const motorRef = useRef({ LMotor, RMotor });
+  const motorRef = useRef<ROS_GeoMsg>();
 
   const ws_endpoint = "ws://192.168.128.90:5000/";
 
   interface ws_msg {
     type: "MOTOR" | "CAM";
-    RMotor?: number;
-    LMotor?: number;
+    angular?: { x: number; y: number; z: number };
+    linear?: { x: number; y: number; z: number };
   }
 
   // fullscreen mode in mobile
@@ -63,8 +64,16 @@ export default function Home() {
   // motor value ref update on state change
   useEffect(() => {
     motorRef.current = {
-      LMotor,
-      RMotor,
+      angular: {
+        x: 0,
+        y: 0,
+        z: (RMotor - LMotor) / 2, // diff in max r and max l is 0.44 which is 2x max limit
+      },
+      linear: {
+        x: (LMotor + RMotor) / 2,
+        y: 0,
+        z: 0,
+      },
     };
   }, [RMotor, LMotor]);
 
