@@ -1,12 +1,8 @@
 import Head from "next/head";
 import ROSLIB from "roslib";
 import Slider from "@/components/slider";
+import ROS_GeoMsg from "@/interfaces/geomsg";
 import { useState, useRef, useEffect } from "react";
-
-interface ROS_GeoMsg {
-  angular: { x: number; y: number; z: number };
-  linear: { x: number; y: number; z: number };
-}
 
 const ROSbridge: React.FC = () => {
   // states to track motor
@@ -69,10 +65,10 @@ const ROSbridge: React.FC = () => {
       angular: {
         x: 0,
         y: 0,
-        z: (LMotor - RMotor) / 1000,
+        z: (RMotor - LMotor) / 2, // diff in max r and max l is 0.44 which is 2x max limit
       },
       linear: {
-        x: (LMotor + RMotor) / 2 / 1000,
+        x: (LMotor + RMotor) / 2,
         y: 0,
         z: 0,
       },
