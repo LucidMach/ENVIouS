@@ -1,10 +1,13 @@
-import Head from "next/head";
 import ROSLIB from "roslib";
+import Head from "next/head";
+import { useAtom } from "jotai";
+import { ipAtom } from "@/atoms/ip";
 import Slider from "@/components/slider";
 import ROS_GeoMsg from "@/interfaces/geomsg";
 import { useState, useRef, useEffect } from "react";
 
 const ROSbridge: React.FC = () => {
+  const [ip, setIp] = useAtom(ipAtom);
   // states to track motor
   const [RMotor, setRMotor] = useState<number>(0);
   const [LMotor, setLMotor] = useState<number>(0);
@@ -22,7 +25,7 @@ const ROSbridge: React.FC = () => {
 
   // rosbridge
   useEffect(() => {
-    const ros = new ROSLIB.Ros({ url: "ws://192.168.128.90:9090" });
+    const ros = new ROSLIB.Ros({ url: `ws://${ip}:9090` });
 
     // When the Rosbridge server connects, fill the span with id "status" with "successful"
     ros.on("connection", () => {
@@ -40,15 +43,12 @@ const ROSbridge: React.FC = () => {
       setStatus("CLOSED");
     });
 
-    // Create a listener for /my_topic
-
-    const cmd_vel_listener = new ROSLIB.Topic({
+    // Create a listener for /cmd_vel
+    cmd_vel_ref.current = new ROSLIB.Topic({
       ros,
       name: "/cmd_vel",
       messageType: "geometry_msgs/msg/Twist",
     });
-
-    cmd_vel_ref.current = cmd_vel_listener;
 
     cmd_vel_ref.current.subscribe((message: any) => {
       setROSmotor(message);

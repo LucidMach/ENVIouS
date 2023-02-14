@@ -7,6 +7,9 @@
   padding: 0;
   margin: 0;
 }
+p {
+  cursor: default;
+}
 
 html,
 body,

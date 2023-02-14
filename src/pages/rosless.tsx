@@ -1,9 +1,12 @@
 import Head from "next/head";
+import { useAtom } from "jotai";
+import { ipAtom } from "@/atoms/ip";
 import Slider from "@/components/slider";
 import { useEffect, useRef, useState } from "react";
 import ROS_GeoMsg from "@/interfaces/geomsg";
 
 export default function Home() {
+  const [ip, setIp] = useAtom(ipAtom);
   // states to track curr image
   const [imgB64, setImgB64] = useState<string>("");
 
@@ -17,7 +20,7 @@ export default function Home() {
   const [LMotor, setLMotor] = useState<number>(0);
   const motorRef = useRef<ROS_GeoMsg>();
 
-  const ws_endpoint = "ws://192.168.128.90:5000/";
+  const ws_endpoint = `ws://${ip}:5000/`;
 
   interface ws_msg {
     type: "MOTOR" | "CAM";
