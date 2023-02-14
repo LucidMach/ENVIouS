@@ -4,6 +4,7 @@ import { ipAtom } from "@/atoms/ip";
 import Slider from "@/components/slider";
 import { useEffect, useRef, useState } from "react";
 import ROS_GeoMsg from "@/interfaces/geomsg";
+import Link from "next/link";
 
 export default function Home() {
   const [ip, setIp] = useAtom(ipAtom);
@@ -104,6 +105,13 @@ export default function Home() {
         />
         <Slider value={RMotor} setValue={setRMotor} />
       </main>
+      <Link
+        href="/rosbridge"
+        className="absolute top-0 w-full bg-yellow-400 text-slate-900 text-center"
+      >
+        we recommend using the{" "}
+        <span className="underline">rosbridge version</span>
+      </Link>
     </>
   );
 }
