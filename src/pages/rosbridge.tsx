@@ -8,6 +8,8 @@ import { useState, useRef, useEffect } from "react";
 import Settings from "@/components/settings";
 import { bgAtom } from "@/atoms/bg";
 import { fgAtom } from "@/atoms/fg";
+import { ctAtom } from "@/atoms/ct";
+import Controls from "@/components/controls";
 
 const ROSbridge: React.FC = () => {
   // states to track motor
@@ -79,9 +81,36 @@ const ROSbridge: React.FC = () => {
     cmd_vel_ref.current?.publish(motorData);
   }, [RMotor, LMotor]);
 
-  const [ip, setIp] = useAtom(ipAtom);
-  const [bg, setBG] = useAtom(bgAtom);
-  const [fg, setFG] = useAtom(fgAtom);
+  // keyboard inputs
+  useEffect(() => {
+    window.addEventListener("keydown", (e) => {
+      switch (e.key) {
+        case "w":
+          setLMotor(LMotor + 0.01);
+          setRMotor(RMotor + 0.01);
+          break;
+        case "x":
+          setLMotor(LMotor - 0.01);
+          setRMotor(RMotor - 0.01);
+          break;
+        case "a":
+          setLMotor(LMotor + 0.01);
+          break;
+        case "d":
+          setRMotor(RMotor + 0.01);
+          break;
+        case "s":
+          setLMotor(0);
+          setRMotor(0);
+          break;
+      }
+    });
+  }, []);
+
+  const [ip, ____] = useAtom(ipAtom);
+  const [bg, ___] = useAtom(bgAtom);
+  const [fg, __] = useAtom(fgAtom);
+  const [ct, _] = useAtom(ctAtom);
 
   return (
     <>
@@ -94,7 +123,9 @@ const ROSbridge: React.FC = () => {
       <main
         className={`bg-${bg.hue}-${bg.value} w-full h-full flex justify-evenly items-center`}
       >
-        <Slider value={LMotor} setValue={setLMotor} />
+        {ct === "sliders" ? (
+          <Slider value={LMotor} setValue={setLMotor} />
+        ) : null}
         <div
           className={`p-3 border-${fg.hue}-${fg.value} text-${fg.hue}-${fg.value} border-2 rounded-3xl h-5/6 w-5/6 flex flex-col items-center justify-center`}
           onClick={() => {
@@ -102,7 +133,7 @@ const ROSbridge: React.FC = () => {
             setRMotor(0);
           }}
         >
-          <p className="font-bold">{status}</p>
+          <p className="font-bold">ROSBRIDGE CONNECTION {status}</p>
           {status === "CONNECTED" ? (
             <>
               <p className="font-light text-sm text-green-50">
@@ -110,9 +141,24 @@ const ROSbridge: React.FC = () => {
               </p>
               <p className="font-light text-xs">click to reset motors</p>
             </>
+          ) : status === "CLOSED" ? (
+            <>
+              <p className="font-light text-xs">
+                make sure you're on same wifi connection as the robot
+              </p>
+            </>
           ) : null}
         </div>
-        <Slider value={RMotor} setValue={setRMotor} />
+        {ct === "sliders" ? (
+          <Slider value={RMotor} setValue={setRMotor} />
+        ) : ct === "buttons" ? (
+          <Controls
+            Lvalue={LMotor}
+            Rvalue={RMotor}
+            setLValue={setLMotor}
+            setRValue={setRMotor}
+          />
+        ) : null}
       </main>
       <Settings />
     </>

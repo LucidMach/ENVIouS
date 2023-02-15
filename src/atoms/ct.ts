@@ -1,5 +1,5 @@
 import { atomWithStorage } from "jotai/utils";
 
-const ctAtom = atomWithStorage("ct", "none");
+const ctAtom = atomWithStorage<"sliders" | "buttons">("ct", "sliders");
 
 export { ctAtom };

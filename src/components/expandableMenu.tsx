@@ -13,8 +13,8 @@ const Menu: React.FC = () => {
   const [st, setST] = useAtom(stAtom);
   const [ct, setCT] = useAtom(ctAtom);
 
-  const sensorType = ["camera", "lidar", "none"];
-  const controlType = ["sliders", "buttons", "joystick"];
+  const sensorType: typeof st[] = ["camera", "lidar", "none"];
+  const controlType: typeof ct[] = ["sliders", "buttons"];
 
   return (
     <div className={`text-${bg.hue}-${bg.value} flex flex-col gap-2 mr-8 mb-4`}>

@@ -1,5 +1,5 @@
 import { atomWithStorage } from "jotai/utils";
 
-const stAtom = atomWithStorage("st", "none");
+const stAtom = atomWithStorage<"camera" | "lidar" | "none">("st", "none");
 
 export { stAtom };
