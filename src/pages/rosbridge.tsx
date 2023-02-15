@@ -5,9 +5,11 @@ import { ipAtom } from "@/atoms/ip";
 import Slider from "@/components/slider";
 import ROS_GeoMsg from "@/interfaces/geomsg";
 import { useState, useRef, useEffect } from "react";
+import Settings from "@/components/settings";
+import { bgAtom } from "@/atoms/bg";
+import { fgAtom } from "@/atoms/fg";
 
 const ROSbridge: React.FC = () => {
-  const [ip, setIp] = useAtom(ipAtom);
   // states to track motor
   const [RMotor, setRMotor] = useState<number>(0);
   const [LMotor, setLMotor] = useState<number>(0);
@@ -77,6 +79,10 @@ const ROSbridge: React.FC = () => {
     cmd_vel_ref.current?.publish(motorData);
   }, [RMotor, LMotor]);
 
+  const [ip, setIp] = useAtom(ipAtom);
+  const [bg, setBG] = useAtom(bgAtom);
+  const [fg, setFG] = useAtom(fgAtom);
+
   return (
     <>
       <Head>
@@ -85,10 +91,12 @@ const ROSbridge: React.FC = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="bg-slate-900 w-full h-full flex justify-evenly items-center">
+      <main
+        className={`bg-${bg.hue}-${bg.value} w-full h-full flex justify-evenly items-center`}
+      >
         <Slider value={LMotor} setValue={setLMotor} />
         <div
-          className="p-3 border-yellow-400 text-yellow-400 border-2 rounded-3xl h-5/6 w-5/6 flex flex-col items-center justify-center"
+          className={`p-3 border-${fg.hue}-${fg.value} text-${fg.hue}-${fg.value} border-2 rounded-3xl h-5/6 w-5/6 flex flex-col items-center justify-center`}
           onClick={() => {
             setLMotor(0);
             setRMotor(0);
@@ -97,7 +105,7 @@ const ROSbridge: React.FC = () => {
           <p className="font-bold">{status}</p>
           {status === "CONNECTED" ? (
             <>
-              <p className="font-light text-sm text-yellow-50">
+              <p className="font-light text-sm text-green-50">
                 {JSON.stringify(ROSmotor)}
               </p>
               <p className="font-light text-xs">click to reset motors</p>
@@ -106,6 +114,7 @@ const ROSbridge: React.FC = () => {
         </div>
         <Slider value={RMotor} setValue={setRMotor} />
       </main>
+      <Settings />
     </>
   );
 };

@@ -30,7 +30,8 @@ a {
   }
 }
 input[type="range"]::-webkit-slider-thumb {
-  background: #fcd34d;
+  background: white;
+  opacity: 0.35;
   -webkit-appearance: none; /* Override default look */
   appearance: none;
   border-radius: 100%;
