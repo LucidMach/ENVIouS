@@ -34,13 +34,13 @@ const Controls: React.FC<props> = ({
       <div className="flex gap-12">
         <div
           className={`bg-${fg.hue}-${fg.value} w-12 h-16 rounded-full text-${bg.hue}-${bg.value} flex justify-center items-center cursor-pointer`}
-          onClick={() => setLValue(Lvalue + 0.01)}
+          onClick={() => setLValue(Lvalue + 0.1)}
         >
           a
         </div>
         <div
           className={`bg-${fg.hue}-${fg.value} w-12 h-16 rounded-full text-${bg.hue}-${bg.value} flex justify-center items-center cursor-pointer`}
-          onClick={() => setRValue(Rvalue + 0.01)}
+          onClick={() => setRValue(Rvalue + 0.1)}
         >
           d
         </div>

@@ -69,11 +69,12 @@ const ROSbridge: React.FC = () => {
       LMotor,
       RMotor,
     };
+    console.log(motorRef.current);
     const motorData: ROS_GeoMsg = {
       angular: {
         x: 0,
         y: 0,
-        z: (RMotor - LMotor) / 2, // diff in max r and max l is 0.44 which is 2x max limit
+        z: LMotor - RMotor, // diff in max r and max l is 0.44 which is 2x max limit
       },
       linear: {
         x: (LMotor + RMotor) / 2,
