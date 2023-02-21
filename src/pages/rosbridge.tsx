@@ -90,31 +90,31 @@ const ROSbridge: React.FC = () => {
     cmd_vel_ref.current?.publish(motorData);
   }, [RMotor, LMotor]);
 
-  // // keyboard inputs
-  // useEffect(() => {
-  //   window.addEventListener("keydown", (e) => {
-  //     switch (e.key) {
-  //       case "w":
-  //         setLMotor(LMotor + 0.01);
-  //         setRMotor(RMotor + 0.01);
-  //         break;
-  //       case "x":
-  //         setLMotor(LMotor - 0.01);
-  //         setRMotor(RMotor - 0.01);
-  //         break;
-  //       case "a":
-  //         setLMotor(LMotor + 0.01);
-  //         break;
-  //       case "d":
-  //         setRMotor(RMotor + 0.01);
-  //         break;
-  //       case "s":
-  //         setLMotor(0);
-  //         setRMotor(0);
-  //         break;
-  //     }
-  //   });
-  // }, []);
+  // keyboard inputs
+  useEffect(() => {
+    window.addEventListener("keydown", (e) => {
+      switch (e.key) {
+        case "w":
+          setLMotor((curr) => curr + 0.01);
+          setRMotor((curr) => curr + 0.01);
+          break;
+        case "x":
+          setLMotor((curr) => curr - 0.01);
+          setRMotor((curr) => curr - 0.01);
+          break;
+        case "a":
+          setLMotor((curr) => curr + 0.01);
+          break;
+        case "d":
+          setRMotor((curr) => curr + 0.01);
+          break;
+        case "s":
+          setLMotor(0);
+          setRMotor(0);
+          break;
+      }
+    });
+  }, []);
 
   const inputCon = () => {
     return ct === "sliders" ? (
@@ -147,10 +147,6 @@ const ROSbridge: React.FC = () => {
         {inputCon()}
         <div
           className={`z-10 p-3 border-${fg.hue}-${fg.value} text-${fg.hue}-${fg.value} border-2 rounded-3xl h-5/6 w-5/6 flex flex-col items-center justify-center`}
-          onClick={(e) => {
-            setLMotor(0);
-            setRMotor(0);
-          }}
         >
           <p className="font-bold">ROSBRIDGE {status}</p>
           {status === "CONNECTED" ? (
