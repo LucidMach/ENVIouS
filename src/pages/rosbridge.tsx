@@ -12,6 +12,8 @@ import { ctAtom } from "@/atoms/ct";
 import Controls from "@/components/controls";
 
 const ROSbridge: React.FC = () => {
+  const [ip, setIP] = useAtom(ipAtom);
+
   // states to track motor
   const [RMotor, setRMotor] = useState<number>(0);
   const [LMotor, setLMotor] = useState<number>(0);
@@ -29,35 +31,37 @@ const ROSbridge: React.FC = () => {
 
   // rosbridge
   useEffect(() => {
-    const ros = new ROSLIB.Ros({ url: `ws://${ip}:9090` });
+    if (ip) {
+      const ros = new ROSLIB.Ros({ url: `ws://${ip}:9090` });
 
-    // When the Rosbridge server connects, fill the span with id "status" with "successful"
-    ros.on("connection", () => {
-      setStatus("CONNECTED");
-    });
+      // When the Rosbridge server connects, fill the span with id "status" with "successful"
+      ros.on("connection", () => {
+        setStatus("CONNECTED");
+      });
 
-    // When the Rosbridge server experiences an error, fill the "status" span with the returned error
-    ros.on("error", (error) => {
-      setStatus("ERROR");
-      console.log(error);
-    });
+      // When the Rosbridge server experiences an error, fill the "status" span with the returned error
+      ros.on("error", (error) => {
+        setStatus("ERROR");
+        console.log(error);
+      });
 
-    // When the Rosbridge server shuts down, fill the "status" span with "closed"
-    ros.on("close", () => {
-      setStatus("CLOSED");
-    });
+      // When the Rosbridge server shuts down, fill the "status" span with "closed"
+      ros.on("close", () => {
+        setStatus("CLOSED");
+      });
 
-    // Create a listener for /cmd_vel
-    cmd_vel_ref.current = new ROSLIB.Topic({
-      ros,
-      name: "/cmd_vel",
-      messageType: "geometry_msgs/msg/Twist",
-    });
+      // Create a listener for /cmd_vel
+      cmd_vel_ref.current = new ROSLIB.Topic({
+        ros,
+        name: "/cmd_vel",
+        messageType: "geometry_msgs/msg/Twist",
+      });
 
-    cmd_vel_ref.current.subscribe((message: any) => {
-      setROSmotor(message);
-    });
-  }, []);
+      cmd_vel_ref.current.subscribe((message: any) => {
+        setROSmotor(message);
+      });
+    }
+  }, [ip]);
 
   // motor value ref update on state change
   useEffect(() => {
@@ -107,7 +111,6 @@ const ROSbridge: React.FC = () => {
     });
   }, []);
 
-  const [ip, ____] = useAtom(ipAtom);
   const [bg, ___] = useAtom(bgAtom);
   const [fg, __] = useAtom(fgAtom);
   const [ct, _] = useAtom(ctAtom);
