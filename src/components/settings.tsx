@@ -13,7 +13,7 @@ const Settings: React.FC = () => {
   return (
     <>
       <div
-        className={`absolute top-6 right-4 p-2 rounded-lg flex flex-col gap-4 bg-${fg.hue}-${fg.value} fill-${bg.hue}-${bg.value}`}
+        className={`absolute z-20 top-6 right-4 p-2 rounded-lg flex flex-col gap-4 bg-${fg.hue}-${fg.value} fill-${bg.hue}-${bg.value}`}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

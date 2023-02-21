@@ -12,7 +12,10 @@ import { ctAtom } from "@/atoms/ct";
 import Controls from "@/components/controls";
 
 const ROSbridge: React.FC = () => {
-  const [ip, setIP] = useAtom(ipAtom);
+  const [ip, ____] = useAtom(ipAtom);
+  const [bg, ___] = useAtom(bgAtom);
+  const [fg, __] = useAtom(fgAtom);
+  const [ct, _] = useAtom(ctAtom);
 
   // states to track motor
   const [RMotor, setRMotor] = useState<number>(0);
@@ -65,11 +68,12 @@ const ROSbridge: React.FC = () => {
 
   // motor value ref update on state change
   useEffect(() => {
+    console.log("trigg");
+
     motorRef.current = {
       LMotor,
       RMotor,
     };
-    console.log(motorRef.current);
     const motorData: ROS_GeoMsg = {
       angular: {
         x: 0,
@@ -86,35 +90,48 @@ const ROSbridge: React.FC = () => {
     cmd_vel_ref.current?.publish(motorData);
   }, [RMotor, LMotor]);
 
-  // keyboard inputs
-  useEffect(() => {
-    window.addEventListener("keydown", (e) => {
-      switch (e.key) {
-        case "w":
-          setLMotor(LMotor + 0.01);
-          setRMotor(RMotor + 0.01);
-          break;
-        case "x":
-          setLMotor(LMotor - 0.01);
-          setRMotor(RMotor - 0.01);
-          break;
-        case "a":
-          setLMotor(LMotor + 0.01);
-          break;
-        case "d":
-          setRMotor(RMotor + 0.01);
-          break;
-        case "s":
-          setLMotor(0);
-          setRMotor(0);
-          break;
-      }
-    });
-  }, []);
+  // // keyboard inputs
+  // useEffect(() => {
+  //   window.addEventListener("keydown", (e) => {
+  //     switch (e.key) {
+  //       case "w":
+  //         setLMotor(LMotor + 0.01);
+  //         setRMotor(RMotor + 0.01);
+  //         break;
+  //       case "x":
+  //         setLMotor(LMotor - 0.01);
+  //         setRMotor(RMotor - 0.01);
+  //         break;
+  //       case "a":
+  //         setLMotor(LMotor + 0.01);
+  //         break;
+  //       case "d":
+  //         setRMotor(RMotor + 0.01);
+  //         break;
+  //       case "s":
+  //         setLMotor(0);
+  //         setRMotor(0);
+  //         break;
+  //     }
+  //   });
+  // }, []);
 
-  const [bg, ___] = useAtom(bgAtom);
-  const [fg, __] = useAtom(fgAtom);
-  const [ct, _] = useAtom(ctAtom);
+  const inputCon = () => {
+    return ct === "sliders" ? (
+      <div className="absolute w-full flex justify-between p-10">
+        <Slider value={LMotor} setValue={setLMotor} />
+        <Slider value={RMotor} setValue={setRMotor} />
+      </div>
+    ) : ct === "buttons" ? (
+      <Controls
+        className="bottom-20"
+        Lvalue={LMotor}
+        Rvalue={RMotor}
+        setLValue={setLMotor}
+        setRValue={setRMotor}
+      />
+    ) : null;
+  };
 
   return (
     <>
@@ -127,23 +144,20 @@ const ROSbridge: React.FC = () => {
       <main
         className={`bg-${bg.hue}-${bg.value} w-full h-full flex justify-evenly items-center`}
       >
-        {ct === "sliders" ? (
-          <Slider value={LMotor} setValue={setLMotor} />
-        ) : null}
+        {inputCon()}
         <div
-          className={`p-3 border-${fg.hue}-${fg.value} text-${fg.hue}-${fg.value} border-2 rounded-3xl h-5/6 w-5/6 flex flex-col items-center justify-center`}
-          onClick={() => {
+          className={`z-10 p-3 border-${fg.hue}-${fg.value} text-${fg.hue}-${fg.value} border-2 rounded-3xl h-5/6 w-5/6 flex flex-col items-center justify-center`}
+          onClick={(e) => {
             setLMotor(0);
             setRMotor(0);
           }}
         >
-          <p className="font-bold">ROSBRIDGE CONNECTION {status}</p>
+          <p className="font-bold">ROSBRIDGE {status}</p>
           {status === "CONNECTED" ? (
             <>
               <p className="font-light text-sm text-green-50">
                 {JSON.stringify(ROSmotor)}
               </p>
-              <p className="font-light text-xs">click to reset motors</p>
             </>
           ) : status === "CLOSED" ? (
             <>
@@ -153,16 +167,6 @@ const ROSbridge: React.FC = () => {
             </>
           ) : null}
         </div>
-        {ct === "sliders" ? (
-          <Slider value={RMotor} setValue={setRMotor} />
-        ) : ct === "buttons" ? (
-          <Controls
-            Lvalue={LMotor}
-            Rvalue={RMotor}
-            setLValue={setLMotor}
-            setRValue={setRMotor}
-          />
-        ) : null}
       </main>
       <Settings />
     </>
