@@ -22,6 +22,7 @@ const Slider: React.FC<props> = ({ className, value, setValue }) => {
         value={val}
         onChange={(e) => setVal(parseInt(e.target.value))}
         onClick={() => setVal(0)}
+        onTouchEnd={() => setVal(0)}
         step="5"
         className={`absolute landscape:w-1/3 md:w-1/2 h-2 -rotate-90 bg-${fg.hue}-${fg.value} rounded-lg appearance-none cursor-pointer`}
       />
