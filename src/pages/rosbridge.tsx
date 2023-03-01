@@ -63,13 +63,22 @@ const ROSbridge: React.FC = () => {
       cmd_vel_ref.current.subscribe((message: any) => {
         setROSmotor(message);
       });
+
+      // Create a listener for /image_raw/compressed
+      const img_rawc_ref = new ROSLIB.Topic({
+        ros,
+        name: "/image_raw/compressed",
+        messageType: "sensor_msgs/msg/CompressedImage",
+      });
+
+      img_rawc_ref.subscribe((msg: any) => {
+        console.log("msg");
+      });
     }
   }, [ip]);
 
   // motor value ref update on state change
   useEffect(() => {
-    console.log("trigg");
-
     motorRef.current = {
       LMotor,
       RMotor,
