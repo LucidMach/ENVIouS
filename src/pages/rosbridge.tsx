@@ -6,16 +6,18 @@ import Slider from "@/components/slider";
 import ROS_GeoMsg from "@/interfaces/geomsg";
 import { useState, useRef, useEffect } from "react";
 import Settings from "@/components/settings";
+import Controls from "@/components/controls";
 import { bgAtom } from "@/atoms/bg";
 import { fgAtom } from "@/atoms/fg";
 import { ctAtom } from "@/atoms/ct";
-import Controls from "@/components/controls";
+import { stAtom } from "@/atoms/st";
 
 const ROSbridge: React.FC = () => {
-  const [ip, ____] = useAtom(ipAtom);
-  const [bg, ___] = useAtom(bgAtom);
-  const [fg, __] = useAtom(fgAtom);
-  const [ct, _] = useAtom(ctAtom);
+  const [ip, _____] = useAtom(ipAtom);
+  const [bg, ____] = useAtom(bgAtom);
+  const [fg, ___] = useAtom(fgAtom);
+  const [ct, __] = useAtom(ctAtom);
+  const [st, _] = useAtom(stAtom);
 
   // states to track motor
   const [RMotor, setRMotor] = useState<number>(0);
@@ -27,8 +29,16 @@ const ROSbridge: React.FC = () => {
     angular: { x: 0, y: 0, z: 0 },
     linear: { x: 0, y: 0, z: 0 },
   });
+
+  // states to track fps
+  const [prevTime, setPrev] = useState(Date.now());
+  const [count, setCount] = useState(0);
+  const [fps, setFPS] = useState(0);
+
+  // states for image streaming
   const [ROSimg, setROSimg] = useState<any>();
 
+  // some refs
   const motorRef = useRef({ LMotor, RMotor });
   const cmd_vel_ref = useRef<ROSLIB.Topic<ROSLIB.Message>>();
 
@@ -99,6 +109,16 @@ const ROSbridge: React.FC = () => {
     cmd_vel_ref.current?.publish(motorData);
   }, [RMotor, LMotor]);
 
+  // FPS tracker
+  useEffect(() => {
+    setCount(count + 1);
+    if (Date.now() - prevTime > 1000) {
+      setFPS(count);
+      setPrev(Date.now());
+      setCount(0);
+    }
+  }, [ROSimg]);
+
   // keyboard inputs
   useEffect(() => {
     window.addEventListener("keydown", (e) => {
@@ -157,27 +177,38 @@ const ROSbridge: React.FC = () => {
         <div
           className={`z-10 p-3 border-${fg.hue}-${fg.value} text-${fg.hue}-${fg.value} border-2 rounded-3xl h-5/6 w-5/6 flex flex-col items-center justify-center`}
         >
-          {ROSimg ? (
-            <img
-              className="absolute -z-50 w-full h-full"
-              src={"data:image/jpeg;base64," + ROSimg.data}
-              alt="image from tb3"
-            />
-          ) : null}
-          <p className="font-bold">ROSBRIDGE {status}</p>
-          {status === "CONNECTED" ? (
+          {ROSimg && st === "camera" ? (
             <>
-              <p className="font-light text-sm text-green-50">
-                {JSON.stringify(ROSmotor)}
-              </p>
-            </>
-          ) : status === "CLOSED" ? (
-            <>
-              <p className="font-light text-xs">
-                make sure you're on same wifi connection as the robot
-              </p>
+              <div
+                className={`bg-${fg.hue}-${fg.value} absolute top-2 rounded-full px-2 text-${bg.hue}-${bg.value}`}
+              >
+                FPS: {fps}
+              </div>
+              <img
+                className="absolute -z-50 w-full h-full"
+                src={"data:image/jpeg;base64," + ROSimg.data}
+                alt="image from tb3"
+              />
             </>
           ) : null}
+          <div
+            className={`bg-${bg.hue}-${bg.value} absolute bottom-4 border-2 border-${fg.hue}-${fg.value} rounded-xl p-2 flex flex-col justify-center items-center`}
+          >
+            <p className="font-bold">ROSBRIDGE {status}</p>
+            {status === "CONNECTED" ? (
+              <>
+                <p className="font-light text-sm text-green-50">
+                  {JSON.stringify(ROSmotor)}
+                </p>
+              </>
+            ) : status === "CLOSED" ? (
+              <>
+                <p className="font-light text-xs">
+                  make sure you're on same wifi connection as the robot
+                </p>
+              </>
+            ) : null}
+          </div>
         </div>
       </main>
       <Settings />
