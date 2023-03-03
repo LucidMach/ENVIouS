@@ -14,7 +14,7 @@ const Slider: React.FC<props> = ({ className, value, setValue }) => {
   useEffect(() => setValue(val * 0.0022), [val]);
 
   return (
-    <div className={"flex flex-col items-center gap-2" + className}>
+    <div className={"z-20 flex flex-col items-center gap-2" + className}>
       <input
         type="range"
         min="-100"

@@ -20,7 +20,6 @@ const ROSbridge: React.FC = () => {
   // states to track motor
   const [RMotor, setRMotor] = useState<number>(0);
   const [LMotor, setLMotor] = useState<number>(0);
-
   const [status, setStatus] = useState<"CONNECTED" | "CLOSED" | "ERROR">(
     "CLOSED"
   );
@@ -28,6 +27,7 @@ const ROSbridge: React.FC = () => {
     angular: { x: 0, y: 0, z: 0 },
     linear: { x: 0, y: 0, z: 0 },
   });
+  const [ROSimg, setROSimg] = useState<any>();
 
   const motorRef = useRef({ LMotor, RMotor });
   const cmd_vel_ref = useRef<ROSLIB.Topic<ROSLIB.Message>>();
@@ -71,8 +71,8 @@ const ROSbridge: React.FC = () => {
         messageType: "sensor_msgs/msg/CompressedImage",
       });
 
-      img_rawc_ref.subscribe((msg: any) => {
-        console.log("msg");
+      img_rawc_ref.subscribe((img: any) => {
+        setROSimg(img);
       });
     }
   }, [ip]);
@@ -157,6 +157,13 @@ const ROSbridge: React.FC = () => {
         <div
           className={`z-10 p-3 border-${fg.hue}-${fg.value} text-${fg.hue}-${fg.value} border-2 rounded-3xl h-5/6 w-5/6 flex flex-col items-center justify-center`}
         >
+          {ROSimg ? (
+            <img
+              className="absolute -z-50 w-full h-full"
+              src={"data:image/jpeg;base64," + ROSimg.data}
+              alt="image from tb3"
+            />
+          ) : null}
           <p className="font-bold">ROSBRIDGE {status}</p>
           {status === "CONNECTED" ? (
             <>
