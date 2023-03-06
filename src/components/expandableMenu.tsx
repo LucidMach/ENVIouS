@@ -33,7 +33,7 @@ const Menu: React.FC = () => {
         <p>ST: </p>
         <select
           value={st}
-          onChange={(e) => setST(e.currentTarget.value)}
+          onChange={(e) => setST(e.currentTarget.value as typeof st)}
           id="sensor-type"
           className="border text-center text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         >
@@ -46,7 +46,7 @@ const Menu: React.FC = () => {
         <p>CT: </p>
         <select
           value={ct}
-          onChange={(e) => setCT(e.currentTarget.value)}
+          onChange={(e) => setCT(e.currentTarget.value as typeof ct)}
           id="sensor-type"
           className="border text-center text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         >
