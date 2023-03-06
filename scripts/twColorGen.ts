@@ -37,12 +37,7 @@ const allPossibleColorsTWCSS = async () => {
         colors.push(`${ty}-${col}-${val}`);
 
         if (ty === "fill" && col === "rose" && val === 900) {
-          // fs.writeFileSync(
-          //   path.join(".", "colors.json"),
-          //   JSON.stringify(colors)
-          // );
-          await Deno.writeTextFile("./colors.json", JSON.stringify(colors));
-          // console.log(colors);
+          // await Deno.writeTextFile("./colors.json", JSON.stringify(colors));
         }
       });
     });
