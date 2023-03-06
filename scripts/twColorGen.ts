@@ -50,3 +50,5 @@ const allPossibleColorsTWCSS = async () => {
 };
 
 allPossibleColorsTWCSS();
+
+export default allPossibleColorsTWCSS;
