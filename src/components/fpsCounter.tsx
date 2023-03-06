@@ -5,9 +5,10 @@ import { useEffect, useState } from "react";
 
 interface props {
   ROSimg: any;
+  className?: string;
 }
 
-const FPScounter: React.FC<props> = ({ ROSimg }) => {
+const FPScounter: React.FC<props> = ({ ROSimg, className }) => {
   const [bg, ____] = useAtom(bgAtom);
   const [fg, ___] = useAtom(fgAtom);
 
@@ -29,7 +30,10 @@ const FPScounter: React.FC<props> = ({ ROSimg }) => {
   return (
     <>
       <div
-        className={`bg-${fg.hue}-${fg.value} rounded-full px-2 text-${bg.hue}-${bg.value}`}
+        className={
+          `bg-${fg.hue}-${fg.value} rounded-full px-2 text-${bg.hue}-${bg.value} ` +
+          className
+        }
       >
         FPS: {fps}
       </div>

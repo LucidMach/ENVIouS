@@ -3,6 +3,8 @@ import { ctAtom } from "@/atoms/ct";
 import { fgAtom } from "@/atoms/fg";
 import { ipAtom } from "@/atoms/ip";
 import { stAtom } from "@/atoms/st";
+import { control, controlOptions } from "@/interfaces/control";
+import { sensor, sensorOptions } from "@/interfaces/sensors";
 import { useAtom } from "jotai";
 import TWColorPicker from "./TWColorPicker";
 
@@ -13,8 +15,8 @@ const Menu: React.FC = () => {
   const [st, setST] = useAtom(stAtom);
   const [ct, setCT] = useAtom(ctAtom);
 
-  const sensorType: typeof st[] = ["camera", "lidar", "none"];
-  const controlType: typeof ct[] = ["sliders", "buttons"];
+  const sensorType: sensor[] = [...sensorOptions];
+  const controlType: control[] = [...controlOptions];
 
   return (
     <div className={`text-${bg.hue}-${bg.value} flex flex-col gap-2 mr-8 mb-4`}>
