@@ -11,6 +11,7 @@ import { bgAtom } from "@/atoms/bg";
 import { fgAtom } from "@/atoms/fg";
 import { ctAtom } from "@/atoms/ct";
 import { stAtom } from "@/atoms/st";
+import FPScounter from "@/components/fpsCounter";
 
 const ROSbridge: React.FC = () => {
   const [ip, _____] = useAtom(ipAtom);
@@ -29,11 +30,6 @@ const ROSbridge: React.FC = () => {
     angular: { x: 0, y: 0, z: 0 },
     linear: { x: 0, y: 0, z: 0 },
   });
-
-  // states to track fps
-  const [prevTime, setPrev] = useState(Date.now());
-  const [count, setCount] = useState(0);
-  const [fps, setFPS] = useState(0);
 
   // states for image streaming
   const [ROSimg, setROSimg] = useState<any>();
@@ -109,16 +105,6 @@ const ROSbridge: React.FC = () => {
     cmd_vel_ref.current?.publish(motorData);
   }, [RMotor, LMotor]);
 
-  // FPS tracker
-  useEffect(() => {
-    setCount(count + 1);
-    if (Date.now() - prevTime > 1000) {
-      setFPS(count);
-      setPrev(Date.now());
-      setCount(0);
-    }
-  }, [ROSimg]);
-
   // keyboard inputs
   useEffect(() => {
     window.addEventListener("keydown", (e) => {
@@ -179,11 +165,7 @@ const ROSbridge: React.FC = () => {
         >
           {ROSimg && st === "camera" ? (
             <>
-              <div
-                className={`bg-${fg.hue}-${fg.value} absolute top-2 rounded-full px-2 text-${bg.hue}-${bg.value}`}
-              >
-                FPS: {fps}
-              </div>
+              <FPScounter ROSimg={ROSimg} />
               <img
                 className="absolute -z-50 w-full h-full"
                 src={"data:image/jpeg;base64," + ROSimg.data}
