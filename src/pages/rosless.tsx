@@ -29,8 +29,6 @@ export default function Home() {
     linear?: { x: number; y: number; z: number };
   }
 
-  // fullscreen mode in mobile
-
   // get cam feeds
   useEffect(() => {
     const ws = new WebSocket(ws_endpoint);
