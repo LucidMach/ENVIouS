@@ -42,7 +42,7 @@ const Controls: React.FC<props> = ({
           a
         </div>
         <div
-          className={`bg-${fg.hue}-${fg.value} w-12 h-12 rounded-full text-${bg.hue}-${bg.value} flex justify-center items-center cursor-pointer`}
+          className={`bg-${fg.hue}-${fg.value} w-60 h-12 rounded-full text-${bg.hue}-${bg.value} flex justify-center items-center cursor-pointer`}
           onClick={() =>
             window.dispatchEvent(new KeyboardEvent("keydown", { key: "s" }))
           }
