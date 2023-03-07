@@ -1,6 +1,3 @@
-// import { writeFileSync } from "fs";
-// import path from "path";
-
 const hue = [
   "slate",
   "gray",
@@ -37,6 +34,7 @@ const allPossibleColorsTWCSS = async () => {
         colors.push(`${ty}-${col}-${val}`);
 
         if (ty === "fill" && col === "rose" && val === 900) {
+          /* next line is deno code uncomment before running with deno */
           // await Deno.writeTextFile("./colors.json", JSON.stringify(colors));
         }
       });
