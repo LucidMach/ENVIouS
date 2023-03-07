@@ -10,18 +10,21 @@ const PointCloud: React.FC<props> = ({ ROSlidar, scale }) => {
   return (
     <>
       {ROSlidar.ranges.map((r, tdeg) => {
+        // if range value is not garbage (i.e not to far and not too close)
         if (r > ROSlidar.range_min && r < ROSlidar.range_max) {
-          const x = -scale * r * Math.sin(tdeg * 0.0174533);
-          const y = scale * r * Math.cos(tdeg * 0.0174533);
-          return (
-            <PointInCloud
-              key={tdeg}
-              x={x}
-              y={y}
-              z={0}
-              raw_data={{ range: ROSlidar.ranges[tdeg], angle: tdeg }}
-            />
-          );
+          if (r < 0.07 * scale) {
+            const x = -scale * r * Math.sin(tdeg * 0.0174533);
+            const y = scale * r * Math.cos(tdeg * 0.0174533);
+            return (
+              <PointInCloud
+                key={tdeg}
+                x={x}
+                y={y}
+                z={0}
+                raw_data={{ range: ROSlidar.ranges[tdeg], angle: tdeg }}
+              />
+            );
+          }
         }
       })}
     </>

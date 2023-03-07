@@ -13,7 +13,7 @@ const PointInCloud: React.FC<props> = ({ x, y, z, raw_data }) => {
     <>
       <mesh
         onClick={() => console.log(`${raw_data.range}@${raw_data.angle}`)}
-        scale={0.1}
+        scale={0.04}
         position={[x, y, z]}
       >
         <sphereGeometry />
