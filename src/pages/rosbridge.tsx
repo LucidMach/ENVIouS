@@ -13,8 +13,9 @@ import Settings from "@/components/settings";
 import ControlOut from "@/components/controlOut";
 
 import ROS_GeoMsg from "@/interfaces/geomsg";
-import ROS_SensMsg from "@/interfaces/sensormsg";
+import ROS_CamMsg from "@/interfaces/cammsg";
 import ROS_Status from "@/interfaces/status";
+import ROS_LidarMsg from "@/interfaces/lidarmsg";
 
 const ROSbridge: React.FC = () => {
   const [ip, _____] = useAtom(ipAtom);
@@ -23,7 +24,7 @@ const ROSbridge: React.FC = () => {
 
   const [status, setStatus] = useState<ROS_Status>("CLOSED");
 
-  const [ROSimg, setROSimg] = useState<ROS_SensMsg>({
+  const [ROSimg, setROSimg] = useState<ROS_CamMsg>({
     data: "",
     format: "",
     header: {
@@ -34,6 +35,24 @@ const ROSbridge: React.FC = () => {
       },
     },
   });
+  const [ROSlidar, setROSlidar] = useState<ROS_LidarMsg>({
+    angle_increment: 0,
+    angle_max: 0,
+    angle_min: 0,
+    header: {
+      frame_id: "",
+      stamp: {
+        nanosec: 0,
+        sec: 0,
+      },
+    },
+    intensities: [],
+    range_max: 0,
+    range_min: 0,
+    ranges: [],
+    scan_time: 0,
+    time_increment: 0,
+  });
   const [ROSmotor, setROSmotor] = useState<ROS_GeoMsg>({
     angular: { x: 0, y: 0, z: 0 },
     linear: { x: 0, y: 0, z: 0 },
@@ -41,6 +60,7 @@ const ROSbridge: React.FC = () => {
 
   const cmd_vel_ref = useRef<ROSLIB.Topic<ROSLIB.Message>>();
   const img_rawc_ref = useRef<ROSLIB.Topic<ROSLIB.Message>>();
+  const lidar_scan_ref = useRef<ROSLIB.Topic<ROSLIB.Message>>();
 
   // rosbridge
   useEffect(() => {
@@ -70,8 +90,16 @@ const ROSbridge: React.FC = () => {
         messageType: "geometry_msgs/msg/Twist",
       });
 
-      cmd_vel_ref.current.subscribe((message: any) => {
-        setROSmotor(message);
+      // Create a listener for /cmd_vel
+      lidar_scan_ref.current = new ROSLIB.Topic({
+        ros,
+        name: "/scan",
+        messageType: "sensor_msgs/LaserScan",
+      });
+
+      lidar_scan_ref.current.subscribe((msg: any) => {
+        const data = msg as ROS_LidarMsg;
+        setROSlidar(data);
       });
 
       // Create a listener for /image_raw/compressed
@@ -81,7 +109,8 @@ const ROSbridge: React.FC = () => {
         messageType: "sensor_msgs/msg/CompressedImage",
       });
 
-      img_rawc_ref.current.subscribe((img: any) => {
+      img_rawc_ref.current.subscribe((msg: any) => {
+        const img = msg as ROS_CamMsg;
         setROSimg(img);
       });
     }
@@ -100,7 +129,12 @@ const ROSbridge: React.FC = () => {
       >
         <Settings />
         <ControlOut cmd_vel_ref={cmd_vel_ref} setROSmotor={setROSmotor} />
-        <SensorIn ROSimg={ROSimg} status={status} ROSmotor={ROSmotor} />
+        <SensorIn
+          ROSimg={ROSimg}
+          ROSlidar={ROSlidar}
+          status={status}
+          ROSmotor={ROSmotor}
+        />
       </main>
     </>
   );

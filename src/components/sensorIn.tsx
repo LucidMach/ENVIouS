@@ -1,5 +1,6 @@
 import { useAtom } from "jotai";
 import FPScounter from "./fpsCounter";
+import { Canvas } from "@react-three/fiber";
 import { cva } from "class-variance-authority";
 
 import { bgAtom } from "@/atoms/bg";
@@ -8,16 +9,20 @@ import { stAtom } from "@/atoms/st";
 
 import ROS_GeoMsg from "@/interfaces/geomsg";
 import ROS_Status from "@/interfaces/status";
-import ROS_SensMsg from "@/interfaces/sensormsg";
+import ROS_CamMsg from "@/interfaces/cammsg";
 import StatusMessage from "./statusmsg";
+import ROS_LidarMsg from "@/interfaces/lidarmsg";
+import PointInCloud from "./pointInCloud";
+import PointCloud from "./pointCloud";
 
 interface props {
-  ROSimg: ROS_SensMsg;
+  ROSimg: ROS_CamMsg;
   status: ROS_Status;
   ROSmotor: ROS_GeoMsg;
+  ROSlidar: ROS_LidarMsg;
 }
 
-const SensorIn: React.FC<props> = ({ ROSimg, ROSmotor, status }) => {
+const SensorIn: React.FC<props> = ({ ROSimg, ROSmotor, status, ROSlidar }) => {
   const [bg, ____] = useAtom(bgAtom);
   const [fg, ___] = useAtom(fgAtom);
   const [st, _] = useAtom(stAtom);
@@ -65,7 +70,18 @@ const SensorIn: React.FC<props> = ({ ROSimg, ROSmotor, status }) => {
         </div>
       );
     if (st === "lidar") {
-      return <>work in progress</>;
+      return (
+        <>
+          <Canvas>
+            <pointLight position={[10, 10, 10]} />
+            <PointCloud scale={10} ROSlidar={ROSlidar} />
+            <mesh scale={0.15} position={[0, 0, 0]}>
+              <sphereGeometry />
+              <meshPhysicalMaterial color="hotpink" />
+            </mesh>
+          </Canvas>
+        </>
+      );
     }
   }
   return (
