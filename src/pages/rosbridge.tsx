@@ -5,7 +5,7 @@ import { useAtom } from "jotai";
 import { useState, useRef, useEffect } from "react";
 
 import { bgAtom } from "@/atoms/bg";
-import { fgAtom } from "@/atoms/fg";
+import { fgAtom, fgHexAtom } from "@/atoms/fg";
 import { ipAtom } from "@/atoms/ip";
 
 import SensorIn from "@/components/sensorIn";

@@ -1,3 +1,6 @@
+import { fgHexAtom } from "@/atoms/fg";
+import { useAtom } from "jotai";
+
 interface props {
   x: number;
   y: number;
@@ -9,6 +12,8 @@ interface props {
 }
 
 const PointInCloud: React.FC<props> = ({ x, y, z, raw_data }) => {
+  const [fgHex, _] = useAtom(fgHexAtom);
+
   return (
     <>
       <mesh
@@ -17,7 +22,7 @@ const PointInCloud: React.FC<props> = ({ x, y, z, raw_data }) => {
         position={[x, y, z]}
       >
         <sphereGeometry />
-        <meshPhysicalMaterial color="cyan" />
+        <meshPhysicalMaterial color={fgHex} />
       </mesh>
     </>
   );

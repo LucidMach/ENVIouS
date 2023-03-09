@@ -83,6 +83,21 @@ const SensorIn: React.FC<props> = ({ ROSimg, ROSmotor, status, ROSlidar }) => {
         </>
       );
     }
+    if (st === "lidar + camera") {
+      return (
+        <div className="flex flex-col w-full h-full items-center">
+          <Canvas className="z-10">
+            <pointLight position={[10, 10, 10]} />
+            <PointCloud scale={10} ROSlidar={ROSlidar} />
+          </Canvas>
+          <img
+            className={`absolute bottom-4 h-1/6 w-1/4 border-2 border-${fg.hue}-${fg.value} rounded-full`}
+            src={"data:image/jpeg;base64," + ROSimg.data}
+            alt="image from tb3"
+          />
+        </div>
+      );
+    }
   }
   return (
     <div className={boxStyles({ intent: "border" })}>
