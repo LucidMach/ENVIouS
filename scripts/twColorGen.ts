@@ -22,7 +22,7 @@ const hue = [
   "pink",
   "rose",
 ];
-const value = [0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
+const value = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
 const colorTypes = ["bg", "text", "border", "fill"];
 
 const colors: string[] = [];

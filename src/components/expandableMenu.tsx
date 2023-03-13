@@ -46,12 +46,11 @@ const Menu: React.FC = () => {
       <TWColorPicker title="background" bg={bg} setBG={setBG} />
       <TWColorPicker title="foreground" bg={fg} setBG={setFG} />
       <div className="flex gap-3">
-        <p>localIP: </p>
+        <p>url: </p>
         <input
-          value={ip}
+          value={ip.localIP + " (or) " + ip.ngrokURL}
           className="text-center border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           type="text"
-          onChange={(e) => setIP(e.currentTarget.value)}
         />
       </div>
       <div className="flex gap-3">

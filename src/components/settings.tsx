@@ -5,7 +5,7 @@ import { useState } from "react";
 import Menu from "./expandableMenu";
 
 const Settings: React.FC = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const [bg, setBG] = useAtom(bgAtom);
   const [fg, setFG] = useAtom(fgAtom);

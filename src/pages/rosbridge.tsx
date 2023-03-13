@@ -5,7 +5,7 @@ import { useAtom } from "jotai";
 import { useState, useRef, useEffect } from "react";
 
 import { bgAtom } from "@/atoms/bg";
-import { fgAtom, fgHexAtom } from "@/atoms/fg";
+import { fgAtom } from "@/atoms/fg";
 import { ipAtom } from "@/atoms/ip";
 
 import SensorIn from "@/components/sensorIn";
@@ -17,6 +17,9 @@ import ROS_CamMsg from "@/interfaces/cammsg";
 import ROS_Status from "@/interfaces/status";
 import ROS_LidarMsg from "@/interfaces/lidarmsg";
 
+import tributeImage from "@/interfaces/sample_image.json";
+import tributeLidar from "@/interfaces/sample_lidar.json";
+
 const ROSbridge: React.FC = () => {
   const [ip, _____] = useAtom(ipAtom);
   const [bg, ____] = useAtom(bgAtom);
@@ -24,35 +27,8 @@ const ROSbridge: React.FC = () => {
 
   const [status, setStatus] = useState<ROS_Status>("CLOSED");
 
-  const [ROSimg, setROSimg] = useState<ROS_CamMsg>({
-    data: "",
-    format: "",
-    header: {
-      frame_id: "",
-      stamp: {
-        nanosec: 0,
-        sec: 0,
-      },
-    },
-  });
-  const [ROSlidar, setROSlidar] = useState<ROS_LidarMsg>({
-    angle_increment: 0,
-    angle_max: 0,
-    angle_min: 0,
-    header: {
-      frame_id: "",
-      stamp: {
-        nanosec: 0,
-        sec: 0,
-      },
-    },
-    intensities: [],
-    range_max: 0,
-    range_min: 0,
-    ranges: [],
-    scan_time: 0,
-    time_increment: 0,
-  });
+  const [ROSimg, setROSimg] = useState<ROS_CamMsg>(tributeImage);
+  const [ROSlidar, setROSlidar] = useState<ROS_LidarMsg>(tributeLidar);
   const [ROSmotor, setROSmotor] = useState<ROS_GeoMsg>({
     angular: { x: 0, y: 0, z: 0 },
     linear: { x: 0, y: 0, z: 0 },
@@ -65,7 +41,16 @@ const ROSbridge: React.FC = () => {
   // rosbridge
   useEffect(() => {
     if (ip) {
-      const ros = new ROSLIB.Ros({ url: `ws://${ip}:9090` });
+      const url =
+        ip.type === "localip"
+          ? `ws//${ip.localIP}:9090`
+          : `wss://${ip.ngrokURL}`;
+
+      const ros = new ROSLIB.Ros({ url });
+      // const ros = new ROSLIB.Ros({
+      // url: `ws://0.tcp.in.ngrok.io:14306`,
+      // url: `wss://0e62-223-181-247-185.in.ngrok.io`,
+      // });
 
       // When the Rosbridge server connects, fill the span with id "status" with "successful"
       ros.on("connection", () => {
