@@ -6,6 +6,7 @@ import { fgAtom } from "@/atoms/fg";
 import ROS_GeoMsg from "@/interfaces/geomsg";
 import ROS_Status from "@/interfaces/status";
 import { cva } from "class-variance-authority";
+import Link from "next/link";
 
 interface props {
   ROSmotor: ROS_GeoMsg;
@@ -47,7 +48,9 @@ const StatusMessage: React.FC<props> = ({ ROSmotor, status, position }) => {
         ) : status === "CLOSED" ? (
           <>
             <p className="font-light text-xs">
-              make sure you're on same wifi connection as the robot
+              make sure to run
+              <Link href="https://github.com/LucidMach/ENVIouS/blob/master/scripts/envious.launch.sh" />
+              envious.launch.sh
             </p>
           </>
         ) : null}
