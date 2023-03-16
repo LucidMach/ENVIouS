@@ -1,23 +1,24 @@
-locale  # check for UTF-8
+sudo apt update && sudo apt upgrade
 
-sudo apt update && sudo apt install locales
-sudo locale-gen en_US en_US.UTF-8
-sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
-export LANG=en_US.UTF-8
+echo 'export ROS_DOMAIN_ID=30 #TURTLEBOT3' >> ~/.bashrc
+echo 'export LDS_MODEL=LDS-01' >> ~/.bashrc
+source /opt/ros/foxy/setup.bash
+source ~/.bashrc
 
-locale  # verify settings
+sudo dpkg --add-architecture armhf
+sudo apt update
+sudo apt install libc6:armhf
 
-sudo apt install software-properties-common
-sudo add-apt-repository universe
+export OPENCR_PORT=/dev/ttyACM0
+export OPENCR_MODEL=burger
+export TURTLEBOT3_MODEL=burger
+rm -rf ./opencr_update.tar.bz2
 
-sudo apt update && sudo apt install curl
-sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+wget https://github.com/ROBOTIS-GIT/OpenCR-Binaries/raw/master/turtlebot3/ROS2/latest/opencr_update.tar.bz2
+tar -xvf ./opencr_update.tar.bz2
 
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
-sudo apt install ros-foxy-ros-base python3-argcomplete
-sudo apt install ros-dev-tools
-
-ource /opt/ros/foxy/setup.bash
+cd ~/opencr_update
+./update.sh $OPENCR_PORT $OPENCR_MODEL.opencr
 
 sudo apt install ros-foxy-navigation2
 sudo apt install ros-foxy-nav2-bringup
@@ -34,23 +35,3 @@ curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | \
   echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | \
   sudo tee /etc/apt/sources.list.d/ngrok.list && \
   sudo apt update && sudo apt install ngrok
-
-
-echo 'export ROS_DOMAIN_ID=30 #TURTLEBOT3' >> ~/.bashrc
-echo 'export LDS_MODEL=LDS-01' >> ~/.bashrc
-source /opt/ros/foxy/setup.bash
-source ~/.bashrc
-
-sudo dpkg --add-architecture armhf
-sudo apt update
-sudo apt install libc6:armhf
-
-export OPENCR_PORT=/dev/ttyACM0
-export OPENCR_MODEL=burger
-rm -rf ./opencr_update.tar.bz2
-
-wget https://github.com/ROBOTIS-GIT/OpenCR-Binaries/raw/master/turtlebot3/ROS2/latest/opencr_update.tar.bz2
-tar -xvf ./opencr_update.tar.bz2
-
-cd ~/opencr_update
-./update.sh $OPENCR_PORT $OPENCR_MODEL.opencr
