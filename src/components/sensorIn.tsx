@@ -12,7 +12,8 @@ import ROS_Status from "@/interfaces/status";
 import ROS_CamMsg from "@/interfaces/cammsg";
 import StatusMessage from "./statusmsg";
 import ROS_LidarMsg from "@/interfaces/lidarmsg";
-import PointInCloud from "./pointInCloud";
+
+import { Stats, OrbitControls } from "@react-three/drei";
 import PointCloud from "./pointCloud";
 
 interface props {
@@ -62,7 +63,7 @@ const SensorIn: React.FC<props> = ({ ROSimg, ROSmotor, status, ROSlidar }) => {
         <div className={boxStyles({ intent: "borderless" })}>
           <FPScounter className="absolute bottom-4" ROSimg={ROSimg} />
           <img
-            className="absolute -z-50 w-full h-full"
+            className="absolute -z-50"
             src={"data:image/jpeg;base64," + ROSimg.data}
             alt="image from tb3"
           />
@@ -79,6 +80,8 @@ const SensorIn: React.FC<props> = ({ ROSimg, ROSmotor, status, ROSlidar }) => {
               <sphereGeometry />
               <meshPhysicalMaterial color="hotpink" />
             </mesh>
+            <OrbitControls />
+            <Stats />
           </Canvas>
         </>
       );

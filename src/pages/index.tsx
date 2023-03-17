@@ -15,9 +15,9 @@ const Home: React.FC = () => {
   const [currentURL, setCurrentURL] = useState("");
 
   useEffect(() => {
-    axios.get("/api/localip").then((res) => {
-      setIp({ ...ip, localIP: res.data.ip });
-    });
+    // axios.get("/api/localip").then((res) => {
+    //   setIp({ ...ip, localIP: res.data.ip });
+    // });
     setCurrentURL(window.location.href);
   }, []);
 
@@ -40,7 +40,7 @@ const Home: React.FC = () => {
           </div>
         </div>
         <div className="w-full flex flex-col justify-center items-center gap-10 bg-slate-900">
-          <div className="w-1/3">
+          <div className="w-1/3 min-w-[300px]">
             <button
               onClick={() => setIp({ ...ip, type: "localip" })}
               className={`w-1/2 bg-yellow-${

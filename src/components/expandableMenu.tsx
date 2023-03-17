@@ -45,13 +45,48 @@ const Menu: React.FC = () => {
     <div className={`text-${bg.hue}-${bg.value} flex flex-col gap-2 mr-8 mb-4`}>
       <TWColorPicker title="background" bg={bg} setBG={setBG} />
       <TWColorPicker title="foreground" bg={fg} setBG={setFG} />
-      <div className="flex gap-3">
-        <p>url: </p>
-        <input
-          value={ip.localIP + " (or) " + ip.ngrokURL}
-          className="text-center border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="text"
-        />
+      <div className="flex gap-3 items-center">
+        {ip.type === "localip" ? (
+          <>
+            <p>localIP: </p>
+            <input
+              value={ip.localIP}
+              className="text-center border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              type="text"
+            />
+            <button
+              className="bg-gray-700 w-15 p-2 text-white text-xs shadow-lg rounded-md"
+              onClick={() =>
+                setIP({
+                  ...ip,
+                  type: ip.type === "localip" ? "ngrok" : "localip",
+                })
+              }
+            >
+              switch mode
+            </button>
+          </>
+        ) : (
+          <>
+            <p>ngrokURL: </p>
+            <input
+              value={ip.ngrokURL}
+              className="text-center border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              type="text"
+            />
+            <button
+              className="bg-gray-700 w-15 p-2 text-white text-xs shadow-lg rounded-md"
+              onClick={() =>
+                setIP({
+                  ...ip,
+                  type: ip.type === "localip" ? "ngrok" : "localip",
+                })
+              }
+            >
+              switch mode
+            </button>
+          </>
+        )}
       </div>
       <div className="flex gap-3">
         <p>sensor: </p>
