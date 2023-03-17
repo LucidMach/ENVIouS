@@ -1,0 +1,1 @@
+tmux new-session -d -s enviousinternet `ngrok http 9090`;
