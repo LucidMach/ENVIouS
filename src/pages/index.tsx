@@ -25,7 +25,7 @@ const Home: React.FC = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="h-full flex flex-col justify-between bg-slate-900">
+      <div className="h-full flex flex-col justify-between items-center bg-slate-900">
         <div className="w-full mt-4 flex flex-row items-center justify-center">
           <div className="border-yellow-300 bg-slate-900 z-10 border-2 p-1 rounded-full">
             <Image src="/icon.png" alt="logo" width={75} height={75} />
@@ -35,8 +35,8 @@ const Home: React.FC = () => {
             <h2 className="text-xs font-thin">user interface</h2>
           </div>
         </div>
-        <div className="w-full flex flex-col justify-center items-center gap-10 bg-slate-900">
-          <div className="w-1/3 min-w-[300px]">
+        <div className="w-1/2 min-w-[300px] flex flex-col justify-center items-center gap-10 bg-slate-900">
+          <div className="w-full">
             <button
               onClick={() => setIp({ ...ip, type: "localip" })}
               className={`w-1/2 bg-yellow-${
@@ -70,7 +70,7 @@ const Home: React.FC = () => {
                 onChange={(e) => {
                   setIp({ ...ip, localIP: e.target.value });
                 }}
-                className="rounded-full min-w-[300px] w-1/4 px-6 py-2 text-center bg-slate-900 text-yellow-200 border-2 border-yellow-200"
+                className="rounded-full w-full px-6 py-2 text-center bg-slate-900 text-yellow-200 border-2 border-yellow-200"
                 placeholder="enter ip address of the robot"
               />
             </>
@@ -84,7 +84,7 @@ const Home: React.FC = () => {
                     e.target.value = e.target.value.split("https://")[1];
                   setIp({ ...ip, ngrokURL: e.target.value });
                 }}
-                className="rounded-full min-w-[300px] w-1/4 px-6 py-2 text-center bg-slate-900 text-yellow-200 border-2 border-yellow-200"
+                className="rounded-full w-full px-6 py-2 text-center bg-slate-900 text-yellow-200 border-2 border-yellow-200"
                 placeholder="enter ngrok url from the robot"
               />
             </>
@@ -95,7 +95,7 @@ const Home: React.FC = () => {
         </div>
         <div className="bottom-2 underline bg-yellow-300 text-black flex gap-1 w-full justify-center">
           <a href="https://github.com/lucidmach/envious" target="_blank">
-            github
+            source code
           </a>
           <p>|</p>
           <a
@@ -111,6 +111,13 @@ const Home: React.FC = () => {
           <p>|</p>
           <a target="_blank" href="https://www.buymeacoffee.com/lucidmach/">
             sponsor
+          </a>
+          <p>|</p>
+          <a
+            href="https://lucidmach.notion.site/Documentation-e2b6b57269374ffc91839d174ffeafc9"
+            target="_blank"
+          >
+            documentation
           </a>
         </div>
       </div>
