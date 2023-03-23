@@ -55,10 +55,10 @@ const Home: React.FC = () => {
             </button>
           </div>
           <>
-            <div className="bg-white p-2 w-fit">
+            <div className="mobile-landscape:hidden bg-white p-2 w-fit">
               <QRCodeSVG value={currentURL} />
             </div>
-            <p className="text-sm text-center">
+            <p className="mobile-landscape:hidden text-sm text-center">
               scan to open on another device
             </p>
           </>
