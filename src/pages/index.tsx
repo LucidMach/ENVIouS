@@ -84,6 +84,8 @@ const Home: React.FC = () => {
                 type="text"
                 value={ip.ngrokURL}
                 onChange={(e) => {
+                  if (e.target.value.includes("https://"))
+                    e.target.value = e.target.value.split("https://")[1];
                   setIp({ ...ip, ngrokURL: e.target.value });
                 }}
                 className="rounded-full min-w-[300px] w-1/4 px-6 py-2 text-center bg-slate-900 text-yellow-200 border-2 border-yellow-200"
