@@ -1,11 +1,23 @@
 import { bgAtom } from "@/atoms/bg";
 import { fgAtom } from "@/atoms/fg";
 import { useAtom } from "jotai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Menu from "./expandableMenu";
 
 const Settings: React.FC = () => {
   const [open, setOpen] = useState(true);
+
+  useEffect(() => {
+    const lsOpen = localStorage.getItem("settingsOpen");
+    if (lsOpen) {
+      const lsOpenBool = lsOpen === "true" ? true : false;
+      setOpen(lsOpenBool);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("settingsOpen", open ? "true" : "false");
+  }, [open]);
 
   const [bg, setBG] = useAtom(bgAtom);
   const [fg, setFG] = useAtom(fgAtom);
