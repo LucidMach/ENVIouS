@@ -109,7 +109,7 @@ const ROSbridge: React.FC = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main
-        className={`bg-${bg.hue}-${bg.value} w-full h-full flex justify-evenly items-center`}
+        className={`bg-${bg.hue}-${bg.value} w-full h-full flex justify-evenly items-center touch-none`}
       >
         <Settings />
         <ControlOut cmd_vel_ref={cmd_vel_ref} setROSmotor={setROSmotor} />

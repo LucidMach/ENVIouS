@@ -1,4 +1,3 @@
-import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
 import { useAtom } from "jotai";
@@ -15,9 +14,6 @@ const Home: React.FC = () => {
   const [currentURL, setCurrentURL] = useState("");
 
   useEffect(() => {
-    // axios.get("/api/localip").then((res) => {
-    //   setIp({ ...ip, localIP: res.data.ip });
-    // });
     setCurrentURL(window.location.href);
   }, []);
 
