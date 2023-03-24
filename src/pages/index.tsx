@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useAtom } from "jotai";
 import { ipAtom } from "@/atoms/ip";
 import { QRCodeSVG } from "qrcode.react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Head from "next/head";
 
 const buttonCSS =
@@ -12,6 +12,7 @@ const buttonCSS =
 const Home: React.FC = () => {
   const [ip, setIp] = useAtom(ipAtom);
   const [currentURL, setCurrentURL] = useState("");
+  const [isPWA, setIsPWA] = useState(false);
 
   useEffect(() => {
     setCurrentURL(window.location.href);
@@ -28,7 +29,13 @@ const Home: React.FC = () => {
       <div className="h-full flex flex-col justify-between items-center bg-slate-900">
         <div className="w-full mt-4 flex flex-row items-center justify-center">
           <div className="border-yellow-300 bg-slate-900 z-10 border-2 p-1 rounded-full">
-            <Image src="/icon.png" alt="logo" width={75} height={75} />
+            <Image
+              src="/icon.png"
+              loading="eager"
+              alt="logo"
+              width={75}
+              height={75}
+            />
           </div>
           <div className="bg-yellow-300 text-black w-[90%] relative right-5 rounded-r-full py-2 px-6 flex flex-col items-end">
             <h1 className="text-base font-black">envious</h1>
@@ -93,32 +100,53 @@ const Home: React.FC = () => {
             CONNECT
           </Link>
         </div>
-        <div className="bottom-2 underline bg-yellow-300 text-black flex gap-1 w-full justify-center">
-          <a href="https://github.com/lucidmach/envious" target="_blank">
-            source code
-          </a>
-          <p>|</p>
-          <a
-            target="_blank"
-            href="https://lucidmach.notion.site/Environment-Visualisation-Software-for-TurtleBot3-based-Robots-6062216d246843988fec1abf3205e6b4"
-          >
-            log
-          </a>
-          <p>|</p>
-          <a target="_blank" href="https://lucidmach.tech/">
-            contact
-          </a>
-          <p>|</p>
-          <a target="_blank" href="https://www.buymeacoffee.com/lucidmach/">
-            sponsor
-          </a>
-          <p>|</p>
-          <a
-            href="https://lucidmach.notion.site/Documentation-e2b6b57269374ffc91839d174ffeafc9"
-            target="_blank"
-          >
-            documentation
-          </a>
+        <div className="w-full">
+          {!isPWA ? (
+            <div className="bg-slate-800 rounded-t-lg w-full flex px-6 py-2 items-center justify-between gap-2">
+              <img
+                className="rounded-xl"
+                src="/maskable_icon.png"
+                width={45}
+                alt="installation button"
+              />
+              <p className="text-xs sm:text-sm">this app is installable</p>
+              <button
+                onClick={() => {
+                  setIsPWA(true);
+                }}
+                className="bg-yellow-300 hover:bg-yellow-400 text-slate-900 rounded-full px-6 pw-2"
+              >
+                install
+              </button>
+            </div>
+          ) : null}
+          <div className="bottom-2 underline bg-yellow-300 text-black flex gap-1 w-full justify-center">
+            <a href="https://github.com/lucidmach/envious" target="_blank">
+              source code
+            </a>
+            <p>|</p>
+            <a
+              target="_blank"
+              href="https://lucidmach.notion.site/Environment-Visualisation-Software-for-TurtleBot3-based-Robots-6062216d246843988fec1abf3205e6b4"
+            >
+              log
+            </a>
+            <p>|</p>
+            <a target="_blank" href="https://lucidmach.tech/">
+              contact
+            </a>
+            <p>|</p>
+            <a target="_blank" href="https://www.buymeacoffee.com/lucidmach/">
+              sponsor
+            </a>
+            <p>|</p>
+            <a
+              href="https://lucidmach.notion.site/Documentation-e2b6b57269374ffc91839d174ffeafc9"
+              target="_blank"
+            >
+              documentation
+            </a>
+          </div>
         </div>
       </div>
     </>
