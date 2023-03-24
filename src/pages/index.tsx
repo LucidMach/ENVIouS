@@ -13,9 +13,21 @@ const Home: React.FC = () => {
   const [ip, setIp] = useAtom(ipAtom);
   const [currentURL, setCurrentURL] = useState("");
   const [isPWA, setIsPWA] = useState(false);
+  const [promptInstall, setPromptInstall] = useState<any>();
 
   useEffect(() => {
     setCurrentURL(window.location.href);
+    // PWA install stuff
+    const isInStandaloneMode = () =>
+      window.matchMedia("(display-mode: standalone)").matches;
+    if (isInStandaloneMode()) {
+      setIsPWA(true);
+    }
+
+    window.addEventListener("beforeinstallprompt", (e: any) => {
+      e.preventDefault;
+      setPromptInstall(e);
+    });
   }, []);
 
   return (
@@ -111,8 +123,12 @@ const Home: React.FC = () => {
               />
               <p className="text-xs sm:text-sm">this app is installable</p>
               <button
-                onClick={() => {
+                onClick={(e) => {
                   setIsPWA(true);
+                  e.preventDefault();
+                  if (promptInstall) {
+                    promptInstall.prompt();
+                  }
                 }}
                 className="bg-yellow-300 hover:bg-yellow-400 text-slate-900 rounded-full px-6 pw-2"
               >
