@@ -111,6 +111,9 @@ const Home: React.FC = () => {
           <Link className={buttonCSS} href="/rosbridge">
             CONNECT
           </Link>
+          <Link className="text-xs underline text-yellow-500" href="/faq">
+            need help setting your ros robot up? check out the faq section
+          </Link>
         </div>
         <div className="w-full">
           {!isPWA ? (
