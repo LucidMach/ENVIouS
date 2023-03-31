@@ -1,10 +1,11 @@
 import Link from "next/link";
-import Image from "next/image";
 import { useAtom } from "jotai";
 import { ipAtom } from "@/atoms/ip";
 import { QRCodeSVG } from "qrcode.react";
 import { useEffect, useRef, useState } from "react";
 import Head from "next/head";
+import NAV from "@/components/nav";
+import Footer from "@/components/footer";
 
 const buttonCSS =
   "bg-yellow-200 text-black text-center rounded-full px-6 py-2 cursor-pointer w-1/3 hover:bg-yellow-300";
@@ -39,21 +40,7 @@ const Home: React.FC = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="h-full flex flex-col justify-between items-center bg-slate-900">
-        <div className="w-full mt-4 flex flex-row items-center justify-center">
-          <div className="border-yellow-300 bg-slate-900 z-10 border-2 p-1 rounded-full">
-            <Image
-              src="/icon.png"
-              loading="eager"
-              alt="logo"
-              width={75}
-              height={75}
-            />
-          </div>
-          <div className="bg-yellow-300 text-black w-[90%] relative right-5 rounded-r-full py-2 px-6 flex flex-col items-end">
-            <h1 className="text-base font-black">envious</h1>
-            <h2 className="text-xs font-thin">user interface</h2>
-          </div>
-        </div>
+        <NAV />
         <div className="w-1/2 min-w-[300px] flex flex-col justify-center items-center gap-10 bg-slate-900">
           <div className="w-full">
             <button
@@ -139,33 +126,7 @@ const Home: React.FC = () => {
               </button>
             </div>
           ) : null}
-          <div className="bottom-2 underline bg-yellow-300 text-black flex gap-1 w-full justify-center">
-            <a href="https://github.com/lucidmach/envious" target="_blank">
-              source code
-            </a>
-            <p>|</p>
-            <a
-              target="_blank"
-              href="https://lucidmach.notion.site/Environment-Visualisation-Software-for-TurtleBot3-based-Robots-6062216d246843988fec1abf3205e6b4"
-            >
-              log
-            </a>
-            <p>|</p>
-            <a target="_blank" href="https://lucidmach.tech/">
-              contact
-            </a>
-            <p>|</p>
-            <a target="_blank" href="https://www.buymeacoffee.com/lucidmach/">
-              sponsor
-            </a>
-            <p>|</p>
-            <a
-              href="https://lucidmach.notion.site/Documentation-e2b6b57269374ffc91839d174ffeafc9"
-              target="_blank"
-            >
-              documentation
-            </a>
-          </div>
+          <Footer />
         </div>
       </div>
     </>
