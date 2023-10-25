@@ -9,6 +9,10 @@ The UI platform to help Control and Visualize Data from your TurtleBot (or any r
 </div>
 
 
+# Demos
+https://github.com/LucidMach/ENVIouS/assets/39376102/bfa95eef-0889-4053-a4c4-33bac039ca18
+
+
 
 # Links
 1. [source code](https://github.com/lucidmach/envious)
