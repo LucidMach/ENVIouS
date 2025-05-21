@@ -10,7 +10,8 @@ The UI platform to help Control and Visualize Data from your TurtleBot (or any r
 
 
 # Demos
-https://github.com/LucidMach/ENVIouS/assets/39376102/bfa95eef-0889-4053-a4c4-33bac039ca18
+https://github.com/user-attachments/assets/8f46953f-5eea-446d-b746-0c6f1f3a37e1
+
 
 
 
